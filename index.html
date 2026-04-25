@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Stage & Alternance — Par Dorian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A3263;
+  --navy-dark: #0C1C3A;
+  --navy-mid: #1E3A6E;
+  --navy-light: #2B5097;
+  --gold: #C9A84C;
+  --gold-light: #E8CC87;
+  --gold-pale: #FDF5E0;
+  --beige: #F3EDE1;
+  --beige-dark: #E6DDD0;
+  --cream: #FAFAF7;
+  --white: #FFFFFF;
+  --text: #1A1A2E;
+  --text-mid: #3D4A6B;
+  --text-light: #7A8BAA;
+  --green: #1B7A5A;
+  --green-bg: #E6F4ED;
+  --red: #C0392B;
+  --red-bg: #FCECEA;
+  --amber: #B45309;
+  --amber-bg: #FEF3C7;
+  --border: rgba(26,50,99,0.10);
+  --shadow: 0 4px 24px rgba(26,50,99,0.08);
+  --shadow-lg: 0 16px 56px rgba(26,50,99,0.16);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---- LAYOUT ---- */
+.shell { display: flex; min-height: 100vh; }
+
+/* ---- SIDEBAR ---- */
+.sidebar {
+  width: 256px;
+  background: var(--navy-dark);
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 2rem;
+  transition: transform 0.3s ease;
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+
+.sidebar-logo {
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 0.75rem;
+  background: linear-gradient(160deg, rgba(201,168,76,0.12), transparent);
+}
+
+.sidebar-logo-badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold-light);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+}
+
+.sidebar-logo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--white);
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.sidebar-logo-sub {
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.sidebar-progress { padding: 0.75rem 1.5rem; margin-bottom: 0.5rem; }
+.sidebar-progress-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 7px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar-progress-track {
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
+  height: 3px;
+  overflow: hidden;
+}
+
+.sidebar-progress-fill {
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transition: width 0.6s ease;
+  width: 0%;
+}
+
+.nav-section { padding: 0 0.75rem; margin-bottom: 0.35rem; }
+.nav-section-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.2);
+  padding: 0.6rem 0.75rem 0.3rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  color: rgba(255,255,255,0.5);
+  font-size: 12.5px;
+  font-weight: 400;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.82); }
+.nav-item.active { background: rgba(201,168,76,0.15); color: var(--gold-light); font-weight: 600; }
+.nav-item.done { color: rgba(255,255,255,0.65); }
+.nav-item.done .nav-check { opacity: 1; }
+
+.nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+.nav-check {
+  margin-left: auto;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px;
+  color: var(--navy-dark);
+  font-weight: 900;
+  transition: opacity 0.3s;
+}
+
+/* ---- MAIN ---- */
+.main {
+  margin-left: 256px;
+  flex: 1;
+  min-height: 100vh;
+  padding: 2.5rem 3rem;
+  max-width: calc(100% - 256px);
+}
+
+/* ---- CHAPTERS ---- */
+.chapter {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto;
+  animation: fadeUp 0.3s ease both;
+}
+
+.chapter.visible { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- HOME ---- */
+.home-hero { padding: 1.5rem 0 2.5rem; }
+
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(26,50,99,0.07);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.25rem;
+}
+
+.home-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  line-height: 1.12;
+  color: var(--navy-dark);
+  margin-bottom: 1rem;
+}
+
+.home-title em { font-style: italic; color: var(--navy-light); }
+
+.home-desc {
+  font-size: 15.5px;
+  color: var(--text-mid);
+  line-height: 1.75;
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.home-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.home-stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.4rem;
+  flex: 1;
+  box-shadow: var(--shadow);
+}
+
+.home-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.home-stat-label {
+  font-size: 11.5px;
+  color: var(--text-light);
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 2.5rem;
+}
+
+.home-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.22s;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--navy), var(--gold));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.home-card:hover { border-color: rgba(26,50,99,0.2); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.home-card:hover::after { opacity: 1; }
+
+.home-card-icon { font-size: 22px; margin-bottom: 9px; }
+.home-card-name { font-size: 12.5px; font-weight: 700; color: var(--navy-dark); margin-bottom: 3px; }
+.home-card-desc { font-size: 10.5px; color: var(--text-light); line-height: 1.5; font-weight: 300; }
+
+.home-downloads {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-downloads::before {
+  content: '↓';
+  position: absolute;
+  right: 180px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 96px;
+  color: rgba(255,255,255,0.03);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+}
+
+.home-downloads-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.home-downloads-text p { font-size: 12.5px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+.dl-buttons { display: flex; gap: 10px; flex-shrink: 0; }
+
+.dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.dl-btn-gold { background: var(--gold); color: var(--navy-dark); }
+.dl-btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+.dl-btn-outline { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.15); }
+.dl-btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+/* ---- CHAPTER HEADER ---- */
+.ch-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.ch-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--navy);
+  background: rgba(26,50,99,0.07);
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 0.75rem;
+}
+
+.ch-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  color: var(--navy-dark);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.ch-subtitle { font-size: 14px; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+
+/* ---- SECTION LABEL ---- */
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-light);
+  margin: 2rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ---- TIP CARDS ---- */
+.tip-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(26,50,99,0.04);
+}
+
+.tip-card.highlight {
+  border-left: 3px solid var(--navy);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: linear-gradient(to right, rgba(26,50,99,0.03), var(--white));
+}
+
+.tip-card.gold {
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: linear-gradient(to right, rgba(201,168,76,0.06), var(--white));
+}
+
+.tip-card.warning {
+  border-left: 3px solid var(--red);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: linear-gradient(to right, rgba(192,57,43,0.04), var(--white));
+}
+
+.tip-title { font-size: 13px; font-weight: 700; color: var(--navy-dark); margin-bottom: 5px; }
+.tip-body { font-size: 13px; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+.tip-body strong { font-weight: 600; color: var(--text); }
+
+/* ---- CV COMPARE ---- */
+.cv-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+
+.cv-card { border-radius: var(--radius); padding: 1rem 1.25rem; border: 1px solid transparent; }
+.cv-card.bad { background: var(--red-bg); border-color: rgba(192,57,43,0.18); }
+.cv-card.good { background: var(--green-bg); border-color: rgba(27,122,90,0.18); }
+
+.cv-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.cv-card.bad .cv-card-label { color: var(--red); }
+.cv-card.good .cv-card-label { color: var(--green); }
+
+.cv-card-content { font-size: 12.5px; line-height: 1.65; }
+.cv-card.bad .cv-card-content { color: #7A1E14; }
+.cv-card.good .cv-card-content { color: #0E4A33; }
+
+/* ---- QUIZ ---- */
+.quiz-score-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--beige);
+  border: 1px solid var(--beige-dark);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.quiz-score-label { font-size: 13px; color: var(--text-mid); white-space: nowrap; font-weight: 500; }
+
+.quiz-score-track { flex: 1; background: rgba(26,50,99,0.08); border-radius: 99px; height: 7px; overflow: hidden; }
+
+.quiz-score-fill {
+  height: 7px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--navy), var(--navy-light));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.quiz-container {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(26,50,99,0.04);
+}
+
+.quiz-question { font-size: 13.5px; font-weight: 600; color: var(--navy-dark); margin-bottom: 1rem; line-height: 1.5; }
+.quiz-options { display: flex; flex-direction: column; gap: 7px; }
+
+.quiz-option {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--beige);
+  font-size: 12.5px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: left;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.quiz-option:hover:not(:disabled) { border-color: var(--navy-light); color: var(--navy); background: rgba(26,50,99,0.05); }
+.quiz-option.correct { background: var(--green-bg); border-color: var(--green); color: #0A3D27; }
+.quiz-option.wrong { background: var(--red-bg); border-color: var(--red); color: #5A150E; }
+
+.quiz-feedback {
+  margin-top: 10px;
+  font-size: 12.5px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  display: none;
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.good { background: var(--green-bg); color: #0A3D27; }
+.quiz-feedback.bad { background: var(--red-bg); color: #5A150E; }
+
+/* ---- TEMPLATES ---- */
+.template-box {
+  background: var(--navy-dark);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.template-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.template-box pre {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  white-space: pre-wrap;
+  line-height: 1.75;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 10.5px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
+
+/* ---- TRACKER ---- */
+.tracker-table {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.tracker-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1.3fr 36px;
+  gap: 0;
+  padding: 10px 16px;
+  background: var(--navy-dark);
+  color: rgba(255,255,255,0.55);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.tracker-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1.3fr 36px;
+  gap: 0;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+
+.tracker-row:hover { background: var(--beige); }
+
+.tracker-input {
+  background: transparent;
+  border: none;
+  font-size: 12.5px;
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  outline: none;
+  width: 100%;
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+}
+
+.tracker-input:focus { border-bottom-color: var(--navy-light); }
+.tracker-input::placeholder { color: var(--text-light); }
+
+.status-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.status-pill.new-lead { background: #E8EEFF; color: #2C3E80; }
+.status-pill.en-attente { background: var(--amber-bg); color: var(--amber); }
+.status-pill.relance { background: #E0EDFF; color: #1A3263; }
+.status-pill.entretien { background: #EDE8FE; color: #3D1F7A; }
+.status-pill.refuse { background: var(--red-bg); color: var(--red); }
+.status-pill.obtenu { background: var(--green-bg); color: var(--green); }
+
+.tracker-del { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 14px; padding: 4px; transition: color 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+.tracker-del:hover { color: var(--red); }
+
+.add-row-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--navy); background: none;
+  border: 1.5px dashed rgba(26,50,99,0.25); border-radius: var(--radius-sm);
+  padding: 8px 16px; cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+}
+
+.add-row-btn:hover { background: rgba(26,50,99,0.04); border-color: var(--navy); }
+
+/* ---- CHECKLIST ---- */
+.checklist-container {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 1.25rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item:hover { background: var(--beige); }
+
+.check-box {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  border: 2px solid rgba(26,50,99,0.2);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+}
+
+.check-box.checked { background: var(--navy); border-color: var(--navy); }
+.check-tick { width: 10px; height: 10px; display: none; }
+.check-box.checked .check-tick { display: block; }
+
+.check-label { font-size: 12.5px; color: var(--text); line-height: 1.5; font-weight: 300; }
+.check-label.checked { color: var(--text-light); text-decoration: line-through; }
+
+/* ---- SCORE DISPLAY ---- */
+.score-display {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.5rem;
+  color: var(--white);
+}
+
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; color: var(--gold-light); line-height: 1; }
+.score-label { font-size: 12.5px; color: rgba(255,255,255,0.55); }
+.score-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+
+/* ---- PITCH BUILDER ---- */
+.elevator-builder { display: flex; flex-direction: column; gap: 10px; }
+.eb-row { display: flex; align-items: center; gap: 12px; }
+
+.eb-label { font-size: 12px; color: var(--text-mid); min-width: 140px; font-weight: 600; }
+
+.eb-input {
+  flex: 1; padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-size: 12.5px; color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  outline: none; transition: border-color 0.2s;
+}
+
+.eb-input:focus { border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,50,99,0.07); }
+.eb-input::placeholder { color: var(--text-light); }
+
+.pitch-output {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.8;
+  margin-top: 1.25rem;
+  display: none;
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ---- NAV FOOTER ---- */
+.nav-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+  padding: 9px 22px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+}
+
+.nav-btn:hover { background: var(--beige); border-color: var(--navy-light); color: var(--navy); }
+.nav-btn.primary { background: var(--navy); border-color: var(--navy); color: var(--white); }
+.nav-btn.primary:hover { background: var(--navy-light); border-color: var(--navy-light); }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+/* ---- INFO BOX ---- */
+.info-box {
+  background: rgba(26,50,99,0.04);
+  border: 1px solid rgba(26,50,99,0.12);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.info-box-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.info-box-body { font-size: 13px; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+
+/* ---- ALERT BOX ---- */
+.alert-box {
+  background: var(--gold-pale);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: var(--radius);
+  padding: 1rem 1.4rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  color: #6B4D0C;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.alert-box strong { font-weight: 700; color: #4A3206; }
+
+/* ---- WISHLIST ---- */
+.wishlist-table {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.wishlist-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 2fr 1fr;
+  padding: 10px 16px;
+  background: var(--navy-dark);
+  color: rgba(255,255,255,0.55);
+  font-size: 9.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.09em;
+}
+
+.wishlist-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 2fr 1fr;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+  font-size: 12.5px;
+}
+
+.wishlist-row:hover { background: var(--beige); }
+
+/* ---- CHATBOT ---- */
+.chatbot-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(26,50,99,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  z-index: 500;
+  transition: all 0.25s;
+}
+
+.chatbot-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(26,50,99,0.45); }
+
+.chatbot-fab.open { background: linear-gradient(135deg, var(--red), #E74C3C); }
+
+.chatbot-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 380px;
+  max-height: 560px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 499;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.chatbot-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.chatbot-header {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chatbot-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.chatbot-header-info h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.chatbot-header-info p {
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.45);
+}
+
+.chatbot-online {
+  margin-left: auto;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 0 2px rgba(34,197,94,0.3);
+}
+
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chatbot-msg {
+  max-width: 90%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.chatbot-msg.bot {
+  background: var(--beige);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.chatbot-msg.user {
+  background: var(--navy);
+  color: rgba(255,255,255,0.92);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chatbot-msg.bot.loading { color: var(--text-light); font-style: italic; }
+
+.chatbot-quick {
+  padding: 0.5rem 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chatbot-quick-btn {
+  background: rgba(26,50,99,0.07);
+  border: 1px solid rgba(26,50,99,0.15);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--navy);
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.chatbot-quick-btn:hover { background: rgba(26,50,99,0.14); }
+
+.chatbot-input-row {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chatbot-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--beige);
+  font-size: 12.5px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chatbot-input:focus { border-color: var(--navy-light); background: var(--white); }
+.chatbot-input::placeholder { color: var(--text-light); }
+
+.chatbot-send {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.chatbot-send:hover { background: var(--navy-light); }
+.chatbot-send:disabled { opacity: 0.5; cursor: default; }
+
+/* ---- HAMBURGER ---- */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem; left: 1rem;
+  z-index: 200;
+  background: var(--navy-dark);
+  border: none; border-radius: 8px;
+  padding: 8px 10px; cursor: pointer;
+  color: white; font-size: 18px;
+}
+
+/* ---- ATS SECTION ---- */
+.ats-box {
+  background: linear-gradient(135deg, #1A1A2E, #1E2A4A);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgba(255,255,255,0.82);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ats-box h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+
+.ats-box code {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 11.5px;
+  color: var(--gold-light);
+}
+
+/* ---- DÉBUTANT BADGE ---- */
+.debutant-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #E6F4ED;
+  border: 1px solid rgba(27,122,90,0.2);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 0.5rem;
+}
+
+/* ---- MOBILE ---- */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; max-width: 100%; padding: 1.5rem 1.25rem; padding-top: 4.5rem; }
+  .hamburger { display: block; }
+  .home-grid { grid-template-columns: repeat(2, 1fr); }
+  .cv-compare { grid-template-columns: 1fr; }
+  .home-downloads { flex-direction: column; align-items: flex-start; }
+  .home-title { font-size: 34px; }
+  .home-stats { flex-direction: column; }
+  .chatbot-panel { width: calc(100vw - 48px); right: 24px; }
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" id="hamburger">☰</button>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-badge">✦ Guide Complet</div>
+    <div class="sidebar-logo-title">Stage &<br>Alternance</div>
+    <div class="sidebar-logo-sub">ESSEC × Cabinet de recrutement</div>
+  </div>
+
+  <div class="sidebar-progress">
+    <div class="sidebar-progress-label">
+      <span>Progression</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="sidebar-progress-track">
+      <div class="sidebar-progress-fill" id="global-progress"></div>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Démarrer</div>
+    <button class="nav-item active" onclick="goTo('home')" data-ch="home">
+      <span class="nav-icon">🏠</span> Accueil
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('debutant')" data-ch="debutant">
+      <span class="nav-icon">🌱</span> Bases essentielles
+      <span class="nav-check">✓</span>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Préparer</div>
+    <button class="nav-item" onclick="goTo('cv')" data-ch="cv">
+      <span class="nav-icon">📄</span> Le CV parfait
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('linkedin')" data-ch="linkedin">
+      <span class="nav-icon">💼</span> LinkedIn & e-réputation
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('pitch')" data-ch="pitch">
+      <span class="nav-icon">🎤</span> Elevator pitch
+      <span class="nav-check">✓</span>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Rechercher</div>
+    <button class="nav-item" onclick="goTo('recherche')" data-ch="recherche">
+      <span class="nav-icon">🔍</span> Stratégie de recherche
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('reseau')" data-ch="reseau">
+      <span class="nav-icon">🤝</span> Le réseau
+      <span class="nav-check">✓</span>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Décrocher</div>
+    <button class="nav-item" onclick="goTo('entretien')" data-ch="entretien">
+      <span class="nav-icon">🏆</span> L'entretien
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('templates')" data-ch="templates">
+      <span class="nav-icon">✉️</span> Templates mails
+      <span class="nav-check">✓</span>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Suivre</div>
+    <button class="nav-item" onclick="goTo('tracker')" data-ch="tracker">
+      <span class="nav-icon">📊</span> Tracker candidatures
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('wishlist')" data-ch="wishlist">
+      <span class="nav-icon">⭐</span> Wishlist entreprises
+      <span class="nav-check">✓</span>
+    </button>
+    <button class="nav-item" onclick="goTo('checklist')" data-ch="checklist">
+      <span class="nav-icon">✅</span> Checklist finale
+      <span class="nav-check">✓</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HOME -->
+<div id="ch-home" class="chapter visible">
+  <div class="home-hero">
+    <div class="home-eyebrow">✦ Guide terrain · ESSEC × Cabinet de recrutement</div>
+    <h1 class="home-title">Trouve ton <em>stage</em><br>ou alternance.</h1>
+    <p class="home-desc">Tous les conseils terrain — du CV à l'entretien — compilés par un étudiant ESSEC et une directrice de cabinet de recrutement. Conçu pour donner toutes les cartes en main à ceux qui cherchent vraiment.</p>
+  </div>
+
+  <div class="home-stats">
+    <div class="home-stat">
+      <div class="home-stat-num">7 s</div>
+      <div class="home-stat-label">Temps moyen passé sur un CV lors du premier tri</div>
+    </div>
+    <div class="home-stat">
+      <div class="home-stat-num">50%</div>
+      <div class="home-stat-label">Des postes pourvus viennent d'offres jamais publiées</div>
+    </div>
+    <div class="home-stat">
+      <div class="home-stat-num">1 min</div>
+      <div class="home-stat-label">Pour convaincre avec un bon elevator pitch</div>
+    </div>
+  </div>
+
+  <div class="home-grid">
+    <button class="home-card" onclick="goTo('debutant')">
+      <div class="home-card-icon">🌱</div>
+      <div class="home-card-name">Bases essentielles</div>
+      <div class="home-card-desc">Pour ne jamais rater un truc évident</div>
+    </button>
+    <button class="home-card" onclick="goTo('cv')">
+      <div class="home-card-icon">📄</div>
+      <div class="home-card-name">CV parfait</div>
+      <div class="home-card-desc">Structure, format & quiz interactif</div>
+    </button>
+    <button class="home-card" onclick="goTo('linkedin')">
+      <div class="home-card-icon">💼</div>
+      <div class="home-card-name">LinkedIn</div>
+      <div class="home-card-desc">Vitrine digitale & e-réputation</div>
+    </button>
+    <button class="home-card" onclick="goTo('pitch')">
+      <div class="home-card-icon">🎤</div>
+      <div class="home-card-name">Elevator Pitch</div>
+      <div class="home-card-desc">Construis ton pitch en 1 minute</div>
+    </button>
+    <button class="home-card" onclick="goTo('recherche')">
+      <div class="home-card-icon">🔍</div>
+      <div class="home-card-name">Stratégie</div>
+      <div class="home-card-desc">Méthode, secteurs & ATS</div>
+    </button>
+    <button class="home-card" onclick="goTo('reseau')">
+      <div class="home-card-icon">🤝</div>
+      <div class="home-card-name">Réseau</div>
+      <div class="home-card-desc">Alumni, LinkedIn, entourage</div>
+    </button>
+    <button class="home-card" onclick="goTo('entretien')">
+      <div class="home-card-icon">🏆</div>
+      <div class="home-card-name">Entretien</div>
+      <div class="home-card-desc">Avant, pendant, après</div>
+    </button>
+    <button class="home-card" onclick="goTo('templates')">
+      <div class="home-card-icon">✉️</div>
+      <div class="home-card-name">Templates mails</div>
+      <div class="home-card-desc">Prêts à copier & personnaliser</div>
+    </button>
+  </div>
+
+  <div class="home-downloads">
+    <div class="home-downloads-text">
+      <h3>Ressources à télécharger</h3>
+      <p>Template CV professionnel et fichier Excel de suivi avec dashboard intégré — à personnaliser directement.</p>
+    </div>
+    <div class="dl-buttons">
+      <a href="CV_Template.docx" download class="dl-btn dl-btn-gold">📄 Template CV</a>
+      <a href="Tracker_Candidatures.xlsx" download class="dl-btn dl-btn-outline">📊 Excel Tracker</a>
+    </div>
+  </div>
+</div>
+
+<!-- DÉBUTANT -->
+<div id="ch-debutant" class="chapter">
+  <div class="ch-header">
+    <div class="debutant-badge">🌱 Section débutant</div>
+    <div class="ch-tag">Module 0 · Les fondations</div>
+    <h2 class="ch-title">Les bases essentielles</h2>
+    <p class="ch-subtitle">Avant même de parler de stratégie ou de réseau — il y a des erreurs qui éliminent une candidature en 3 secondes. Voici ce qu'il faut savoir absolument dès le départ.</p>
+  </div>
+
+  <div class="section-label">Le CV — règles absolues</div>
+  <div class="tip-card warning">
+    <div class="tip-title">⚠️ La règle de la page unique</div>
+    <div class="tip-body">Un étudiant ou un profil junior ne doit <strong>jamais</strong> dépasser une page. Les recruteurs passent en moyenne 6 à 7 secondes sur un CV lors du premier tri. Si c'est sur deux pages, la deuxième ne sera jamais lue.</div>
+  </div>
+  <div class="tip-card">
+    <div class="tip-title">📧 L'adresse email — ton premier signal professionnel</div>
+    <div class="tip-body">Fini les <strong>bg-du-75@hotmail.fr</strong> ou <strong>princesse2002@yahoo.com</strong>. On veut du <strong>prenom.nom@gmail.com</strong>. C'est gratuit, ça prend 5 minutes, et ça te différencie instantanément de quelqu'un qui n'y a pas pensé.</div>
+  </div>
+  <div class="tip-card highlight">
+    <div class="tip-title">⬆️ Ordre anti-chronologique — une erreur classique</div>
+    <div class="tip-body">Les expériences et la formation doivent toujours commencer par le plus récent en haut, et descendre vers le plus ancien. C'est une erreur classique des premières candidatures. On veut voir ce que tu fais aujourd'hui, pas ce que tu faisais il y a 4 ans.</div>
+  </div>
+  <div class="tip-card warning">
+    <div class="tip-title">🔤 L'orthographe — tolérance zéro</div>
+    <div class="tip-body">Une faute d'orthographe sur un CV, c'est souvent éliminatoire. Fais relire ton CV par au moins deux personnes différentes, utilise un correcteur en ligne, et si besoin colle-le à ChatGPT pour qu'il le relise comme un ATS. <strong>Aucune faute possible.</strong></div>
+  </div>
+  <div class="tip-card">
+    <div class="tip-title">📄 Format PDF — toujours</div>
+    <div class="tip-body">Ne jamais envoyer un CV en format Word ou Pages. La mise en page risque de sauter selon l'ordinateur du recruteur. Le PDF fige le document. Et le fichier s'appelle <strong>NOM Prénom CV.pdf</strong> — pas cv_final_v3.pdf.</div>
+  </div>
+
+  <div class="section-label">Communication pro — les réflexes de base</div>
+  <div class="tip-card">
+    <div class="tip-title">📨 L'objet de l'email</div>
+    <div class="tip-body">Un email à un recruteur ou un contact réseau doit avoir un objet ultra-clair. Exemple : <strong>"Candidature Alternance Contrôle de Gestion – DUPONT Marie"</strong>. Pas "bonjour" ou "candidature" tout court.</div>
+  </div>
+  <div class="tip-card highlight">
+    <div class="tip-title">🔕 Vérifie tes spams tous les jours</div>
+    <div class="tip-body">Les réponses des entreprises finissent très souvent dans le dossier courrier indésirable. Vérifie tes spams quotidiennement en période de recherche — c'est un basique que la moitié des candidats oublient.</div>
+  </div>
+  <div class="tip-card">
+    <div class="tip-title">📞 Ton répondeur téléphonique</div>
+    <div class="tip-body">"Allo… allo mais non je suis pas là laisse un message" — c'est rédhibitoire. Le message que tu dois avoir : <strong>"Bonjour, vous êtes bien sur la messagerie de [Prénom Nom], laissez-moi un message."</strong> Sobre. Pro. Mémorable.</div>
+  </div>
+
+  <div class="section-label">Comprendre l'envers du décor</div>
+  <div class="ats-box">
+    <h4>🤖 Les ATS — ton vrai premier lecteur</h4>
+    <p>Souvent, le premier lecteur d'un CV n'est pas un humain, mais un logiciel qui scanne les mots-clés. D'où l'importance de reprendre les mots exacts de la fiche de poste dans ton CV.</p>
+    <br>
+    <p>Si l'offre demande <code>"Gestion de projet"</code>, n'écris pas <code>"Management de mission"</code> — écris <code>"Gestion de projet"</code>. Si elle demande <code>"Excel avancé"</code>, ne mets pas juste <code>"Maîtrise des outils bureautiques"</code>.</p>
+    <br>
+    <p>💡 Astuce : colle ton CV à ChatGPT ou Claude et demande-lui de le lire comme un logiciel ATS. Il te dira ce qui manque par rapport à une fiche de poste donnée.</p>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('home')">← Accueil</button>
+    <button class="nav-btn primary" onclick="goTo('cv')">Le CV parfait →</button>
+  </div>
+</div>
+
+<!-- CV -->
+<div id="ch-cv" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 1 · Préparation</div>
+    <h2 class="ch-title">Le CV parfait</h2>
+    <p class="ch-subtitle">Ce que regardent vraiment les recruteurs — et pourquoi la forme compte autant que le fond. Un recruteur passe 7 secondes sur un CV. Chaque décision compte.</p>
+  </div>
+
+  <div class="section-label">La phrase d'accroche — à personnaliser absolument</div>
+  <div class="tip-card gold">
+    <div class="tip-title">⭐ La règle d'or</div>
+    <div class="tip-body">Si le recruteur voit le nom de sa boîte dans ta phrase d'accroche, il sait que tu l'as voulu toi, spécifiquement. C'est la première marque de motivation — et ça se remarque immédiatement. C'est la première chose lue : si ça ne l'accroche pas, le reste sera à peine survolé.</div>
+  </div>
+  <div class="cv-compare">
+    <div class="cv-card bad">
+      <div class="cv-card-label">❌ À éviter absolument</div>
+      <div class="cv-card-content">Étudiant en Master cherche un stage de 6 mois en finance.</div>
+    </div>
+    <div class="cv-card good">
+      <div class="cv-card-label">✅ Ce qu'il faut faire</div>
+      <div class="cv-card-content">Étudiant à l'EDHEC, je cherche une alternance de 12 mois en M&A <strong>chez Lazard</strong> à partir de septembre 2025 pour contribuer à des transactions ambitieuses.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Formation</div>
+  <div class="tip-card"><div class="tip-title">Diplôme, date & rang</div><div class="tip-body">Indique le diplôme, la date de fin, la mention/le rang si tu en as un (top 10%, Dean's list…). Mets le lieu uniquement si c'est pertinent — une expérience à l'étranger oui, toute ta vie à Paris non.</div></div>
+  <div class="tip-card highlight"><div class="tip-title">Expériences internationales — même courtes</div><div class="tip-body">Même un échange au lycée compte. Si tu as suivi des cours en anglais dans ton école, précise-le. Les recruteurs qui cherchent des profils internationaux scannent cette section en 3 secondes. Un semestre à Rabat, Madrid, Dublin — tout ça parle.</div></div>
+  <div class="tip-card"><div class="tip-title">Matières pertinentes seulement</div><div class="tip-body">Ne mets pas "option arts plastiques" pour un stage en finance de marché. Sélectionne les cours qui vont dans le sens de ta recherche et qui montrent une cohérence avec ton projet.</div></div>
+
+  <div class="section-label">Expériences professionnelles</div>
+  <div class="cv-compare">
+    <div class="cv-card bad">
+      <div class="cv-card-label">❌ Trop vague — ne veut rien dire</div>
+      <div class="cv-card-content">— Gestion de projet<br>— Communication interne<br>— Autonome et rigoureux</div>
+    </div>
+    <div class="cv-card good">
+      <div class="cv-card-label">✅ Concret, chiffré, impactant</div>
+      <div class="cv-card-content">— Coordination de 3 équipes sur un projet à 2M€<br>— Rédaction de 15 notes d'analyse pour la direction<br>— Prise en charge autonome d'un portefeuille de 12 clients</div>
+    </div>
+  </div>
+  <div class="tip-card highlight">
+    <div class="tip-title">Zéro colonne "Skills"</div>
+    <div class="tip-body">Ne liste pas "autonome, rigoureux, curieux" dans un encadré. Fais-le transparaître dans tes expériences. "Prise d'initiative sur tel projet" vaut 100× "autonome". <strong>Les qualités se montrent, elles ne se déclarent pas.</strong></div>
+  </div>
+
+  <div class="section-label">Informations complémentaires — ne pas négliger</div>
+  <div class="tip-card gold">
+    <div class="tip-title">Sports & loisirs — la section la plus sous-estimée</div>
+    <div class="tip-body">Marathon = persévérance. Compétition de danse = esprit compétitif. Stand-up comedy = prise de parole, créativité. Président d'asso = leadership. Cette section révèle qui tu es vraiment — et c'est souvent ce dont on parle en entretien.</div>
+  </div>
+  <div class="tip-card"><div class="tip-title">Langues — sois précis et universel</div><div class="tip-body">Pas de jauges, pas d'étoiles, pas de barres de progression — ça ne veut rien dire pour le recruteur. Écris : <strong>Maternelle</strong>, <strong>Bilingue</strong>, <strong>Courant / Professionnel</strong>, <strong>Intermédiaire (B2)</strong>, <strong>Notions</strong>. Quelque chose que tout le monde comprend.</div></div>
+  <div class="tip-card"><div class="tip-title">La photo — le grand débat</div><div class="tip-body">En finance de marché et grands cabinets, mieux vaut éviter. En général : si tu doutes, abstiens-toi. Si tu en mets une — naturelle, sobre, professionnelle. Fond neutre, bonne lumière, c'est tout.</div></div>
+
+  <div class="section-label">Mise en forme — signe extérieur de rigueur</div>
+  <div class="tip-card highlight">
+    <div class="tip-title">L'alignement, c'est du sérieux</div>
+    <div class="tip-body">Un carré mal aligné, des textes qui ne correspondent pas — ça se voit immédiatement. Si tu n'es pas capable d'aligner ton CV, comment convaincre que tu seras rigoureux au travail ? Clic droit → Aligner à gauche/droite/centre. Et le fichier s'appelle <strong>NOM Prénom CV.pdf</strong>.</div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-box-title">📥 Template CV à télécharger</div>
+    <div class="info-box-body">Un template professionnel inspiré des meilleurs CVs vus en cabinet de recrutement, avec toutes les sections bien positionnées.<br><br><a href="CV_Template.doc" download class="dl-btn dl-btn-gold" style="display:inline-flex;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif;">⬇ Télécharger le template CV</a></div>
+  </div>
+
+  <div class="section-label">Quiz — teste tes connaissances</div>
+  <div class="quiz-score-bar">
+    <span class="quiz-score-label" id="cv-score-label">Score : 0 / 4</span>
+    <div class="quiz-score-track"><div class="quiz-score-fill" id="cv-score-fill"></div></div>
+  </div>
+  <div id="quiz-cv"></div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('debutant')">← Bases</button>
+    <button class="nav-btn primary" onclick="goTo('linkedin')">LinkedIn →</button>
+  </div>
+</div>
+
+<!-- LINKEDIN -->
+<div id="ch-linkedin" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 2 · Préparation</div>
+    <h2 class="ch-title">LinkedIn & e-réputation</h2>
+    <p class="ch-subtitle">Ta vitrine numérique après le CV. Les recruteurs la consultent systématiquement — soigne-la autant que ton CV.</p>
+  </div>
+
+  <div class="section-label">Optimiser son profil LinkedIn</div>
+  <div class="tip-card gold"><div class="tip-title">Le titre de profil — pas juste "Étudiant"</div><div class="tip-body">Ne laisse pas juste "Étudiant à la fac". Mets ce que tu cherches : <strong>"Étudiant en Master 1 Finance — Recherche alternance en Contrôle de Gestion (Septembre 2025)"</strong>. C'est indexé par LinkedIn et cherché par les recruteurs.</div></div>
+  <div class="tip-card"><div class="tip-title">L'URL personnalisée</div><div class="tip-body">Par défaut, LinkedIn donne une URL avec des chiffres (ex: linkedin.com/in/jean-dupont-847362). Va dans tes paramètres et modifie-la pour avoir <strong>linkedin.com/in/jeandupont</strong>. Ça se met sur le CV et c'est infiniment plus pro.</div></div>
+  <div class="tip-card"><div class="tip-title">La bannière — ne pas laisser le fond gris</div><div class="tip-body">Mets une image en lien avec ton secteur, ton école ou ta ville. Ça habille le profil instantanément. Un fond gris par défaut, c'est le signe de quelqu'un qui n'a pas soigné sa présence en ligne.</div></div>
+  <div class="tip-card highlight"><div class="tip-title">Certifications — seulement les pertinentes</div><div class="tip-body">Un certificat Bloomberg, CFA Institute, ou une formation Excel avancée — ajoute-le immédiatement. En revanche, aucun intérêt de mettre que tu as un certificat en histoire des égouts si tu cherches en finance. Chaque élément doit servir ta candidature.</div></div>
+  <div class="tip-card"><div class="tip-title">Compétences et validations</div><div class="tip-body">Ajoute des compétences en lien avec ta recherche et demande à tes proches ou anciens collègues de les valider. C'est rapide pour eux, et ça fait la différence dans les recherches des recruteurs.</div></div>
+
+  <div class="section-label">Ta e-réputation — ce que voient les RH</div>
+  <div class="tip-card warning">
+    <div class="tip-title">⚠️ Google-toi maintenant</div>
+    <div class="tip-body">Les RH le font systématiquement. Si des photos ou posts que tu ne veux pas montrer apparaissent, c'est le moment d'ajuster la confidentialité de tes réseaux. Fais-le avant de commencer ta recherche, pas après.</div>
+  </div>
+  <div class="tip-card"><div class="tip-title">Cohérence CV / LinkedIn</div><div class="tip-body">Les dates, les titres de poste, les entreprises — tout doit correspondre exactement. Une incohérence, même involontaire, peut faire douter le recruteur sur ton honnêteté. C'est une vérification standard.</div></div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('cv')">← CV</button>
+    <button class="nav-btn primary" onclick="goTo('pitch')">Elevator Pitch →</button>
+  </div>
+</div>
+
+<!-- PITCH -->
+<div id="ch-pitch" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 3 · Préparation</div>
+    <h2 class="ch-title">L'elevator pitch</h2>
+    <p class="ch-subtitle">1 minute. 3–4 points clés. C'est tout ce qu'il te faut pour ouvrir une porte — par message, par mail, ou en personne.</p>
+  </div>
+
+  <div class="tip-card gold">
+    <div class="tip-title">Pourquoi avoir un pitch impeccable</div>
+    <div class="tip-body">Que ce soit en entretien, au téléphone ou dans un couloir — tu dois pouvoir parler de toi de façon fluide et structurée pendant 1 à 3 minutes. C'est ce qui te distingue de quelqu'un qui balbutie. Les recruteurs entendent des dizaines de "parlez-moi de vous" par semaine — sois mémorable.</div>
+  </div>
+
+  <div class="section-label">Comment choisir tes 3–4 points clés</div>
+  <div class="tip-card"><div class="tip-title">Regarde ton CV avec les yeux du recruteur</div><div class="tip-body">Pour chaque élément, demande-toi : "est-ce que ça renforce ma candidature pour CE poste ?" Ton école, un stage marquant, une compétence rare, une réalisation chiffrée, un sport de compétition — voilà ce qui mérite d'être dans ton pitch.</div></div>
+
+  <div class="section-label">Construis ton pitch ici</div>
+  <div class="elevator-builder" id="pitch-builder">
+    <div class="eb-row">
+      <div class="eb-label">École / formation</div>
+      <input class="eb-input" id="pb-school" placeholder="ex : ESSEC, Dauphine, Sciences Po…" oninput="buildPitch()">
+    </div>
+    <div class="eb-row">
+      <div class="eb-label">Point fort #1</div>
+      <input class="eb-input" id="pb-p1" placeholder="ex : Stage en M&A chez Lazard" oninput="buildPitch()">
+    </div>
+    <div class="eb-row">
+      <div class="eb-label">Point fort #2</div>
+      <input class="eb-input" id="pb-p2" placeholder="ex : Bilingue anglais, semestre à Londres" oninput="buildPitch()">
+    </div>
+    <div class="eb-row">
+      <div class="eb-label">Sport / asso (optionnel)</div>
+      <input class="eb-input" id="pb-p3" placeholder="ex : Marathonien, Prez d'asso 80 membres" oninput="buildPitch()">
+    </div>
+    <div class="eb-row">
+      <div class="eb-label">Ce que tu cherches</div>
+      <input class="eb-input" id="pb-target" placeholder="ex : alternance 12 mois en contrôle de gestion" oninput="buildPitch()">
+    </div>
+  </div>
+  <div class="pitch-output" id="pitch-output"></div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('linkedin')">← LinkedIn</button>
+    <button class="nav-btn primary" onclick="goTo('recherche')">Stratégie →</button>
+  </div>
+</div>
+
+<!-- RECHERCHE -->
+<div id="ch-recherche" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 4 · Recherche</div>
+    <h2 class="ch-title">Stratégie de recherche</h2>
+    <p class="ch-subtitle">Cadrer sa recherche, optimiser chaque candidature et savoir s'adapter quand les résultats tardent.</p>
+  </div>
+
+  <div class="section-label">Cadrer sa recherche</div>
+  <div class="tip-card gold">
+    <div class="tip-title">Pars du principe que tout t'est accessible</div>
+    <div class="tip-body">Ça sert à rien de fermer des portes parce qu'une personne t'a dit que c'était pas possible. Peut-être que dans cette société c'est compliqué — mais dans une autre, c'est le jour et la nuit. Commence large, tu réduiras ensuite.</div>
+  </div>
+  <div class="tip-card"><div class="tip-title">Définir son domaine, son secteur, ses compétences cibles</div><div class="tip-body">Un domaine (finance, marketing, tech…), un secteur (luxe, industrie, conseil…), une compétence (modélisation financière, data, stratégie…). Plus ta recherche est ciblée, plus tes candidatures sont percutantes — mais reste ouvert.</div></div>
+  <div class="tip-card highlight"><div class="tip-title">Savoir lire le contexte économique</div><div class="tip-body">Si tous les budgets événements sont gelés, élargir au business development ou au marketing. Si le sport, le luxe ou l'événementiel sont saturés, explore l'agroalimentaire, l'aviation, l'industrie — il y a souvent plus de places et moins de concurrence.</div></div>
+
+  <div class="section-label">Postuler aux offres — la base</div>
+  <div class="tip-card"><div class="tip-title">Un nom sur l'offre = un message obligatoire</div><div class="tip-body">Quand tu postules à une annonce et qu'un nom est visible, envoyer un message LinkedIn ou email à cette personne est <strong>obligatoire</strong>. "Bonjour, j'ai vu votre annonce et j'ai postulé — je me permets de vous contacter directement." C'est ce qui te distingue des centaines de candidatures anonymes.</div></div>
+  <div class="tip-card highlight"><div class="tip-title">Tracker toutes tes candidatures</div><div class="tip-body">Indispensable pour pouvoir relancer au bon moment. Date d'envoi, contact, statut, lien vers l'offre. Utilise le tracker intégré à ce guide ou l'Excel téléchargeable — mais tiens-le à jour religieusement.</div></div>
+  <div class="tip-card"><div class="tip-title">Quand relancer ?</div><div class="tip-body">Au bout d'1 à 2 semaines sans réponse. C'est ok et tout le monde relance. Tu n'es pas la priorité de cette personne — pour toi elle est peut-être la priorité absolue, mais pour elle, tu ne l'es pas du tout. Une relance courtoise montre la persévérance, pas l'impatience.</div></div>
+
+  <div class="section-label">Quiz — stratégie de recherche</div>
+  <div class="quiz-score-bar">
+    <span class="quiz-score-label" id="rech-score-label">Score : 0 / 3</span>
+    <div class="quiz-score-track"><div class="quiz-score-fill" id="rech-score-fill"></div></div>
+  </div>
+  <div id="quiz-recherche"></div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('pitch')">← Pitch</button>
+    <button class="nav-btn primary" onclick="goTo('reseau')">Le réseau →</button>
+  </div>
+</div>
+
+<!-- RESEAU -->
+<div id="ch-reseau" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 5 · Recherche</div>
+    <h2 class="ch-title">Le réseau</h2>
+    <p class="ch-subtitle">50% des emplois trouvés viennent d'offres jamais publiées. Le réseau n'est pas réservé aux seniors — il commence maintenant.</p>
+  </div>
+
+  <div class="section-label">Commencer avec les alumni</div>
+  <div class="tip-card gold">
+    <div class="tip-title">On est à 7 personnes de n'importe qui dans le monde</div>
+    <div class="tip-body">Tu as plus de réseau que tu ne le crois. Cherche sur LinkedIn ou sur le site de ton école des alumni qui occupent le poste de tes rêves. Envoie-leur une demande de connexion avec un message personnalisé — pas pour demander un stage, mais pour demander un retour d'expérience sur leur parcours.</div>
+  </div>
+  <div class="tip-card highlight"><div class="tip-title">La bonne approche pour le premier message</div><div class="tip-body">Ne parle pas de stage au premier message, ou alors de façon très douce : "Je cherche une alternance et je m'intéresse à ce domaine — est-ce que ça vous dérangerait d'échanger 20 minutes sur votre parcours pour confirmer mes choix d'orientation ?" C'est aussi un moyen de voir si tu es vraiment fait pour ce métier.</div></div>
+  <div class="tip-card"><div class="tip-title">Tes anciens employeurs — ne les oublie pas</div><div class="tip-body">Si tu as gardé un bon contact avec tes anciens maîtres de stage, n'hésite pas à leur demander de l'aide dans ta recherche — que ce soit via leur réseau ou pour des conseils d'orientation.</div></div>
+
+  <div class="section-label">Dans la vraie vie</div>
+  <div class="tip-card">
+    <div class="tip-title">Chaque personne est une opportunité</div>
+    <div class="tip-body">Dîners de famille, voisins, collègues de stage, amis d'amis — dis simplement ce que tu cherches. Même un comptable chez EDF peut avoir une femme dans le marketing, des amis dans des boîtes que tu vises... Ne jamais sous-estimer son réseau. <strong>50% des embauches viennent d'offres jamais publiées</strong> car quelqu'un s'est présenté au bon moment.</div>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('recherche')">← Stratégie</button>
+    <button class="nav-btn primary" onclick="goTo('entretien')">L'entretien →</button>
+  </div>
+</div>
+
+<!-- ENTRETIEN -->
+<div id="ch-entretien" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 6 · Décrocher</div>
+    <h2 class="ch-title">L'entretien</h2>
+    <p class="ch-subtitle">Tout se joue avant même d'ouvrir la bouche. La préparation est ce qui distingue les candidats mémorables des autres.</p>
+  </div>
+
+  <div class="section-label">Avant l'entretien</div>
+  <div class="tip-card gold"><div class="tip-title">Connais les bases de l'entreprise — et plus encore</div><div class="tip-body">Va sur le site, rubrique "Presse" ou "Actualités". Si tu cites une interview du CEO de la semaine dernière ou un prix que la boîte vient de recevoir, tu passes instantanément dans le top 1% des candidats. Aucun autre candidat ne fait ça.</div></div>
+  <div class="tip-card highlight"><div class="tip-title">Regarde le profil LinkedIn de ton interlocuteur</div><div class="tip-body">S'il voit que tu as visité son profil, c'est positif. Pose des questions sur son parcours pendant l'entretien — les gens aiment parler d'eux, et ça montre que tu t'es vraiment préparé. Surtout quand c'est un opérationnel, pas un RH.</div></div>
+  <div class="tip-card"><div class="tip-title">Ton elevator pitch — à avoir en tête</div><div class="tip-body">C'est la question la plus probable : "Parlez-moi de vous." Entraîne-toi à tenir 1 à 3 minutes de façon fluide. Utilise le constructeur du module 3 — il faut que ça coule naturellement, sans hésitation.</div></div>
+
+  <div class="section-label">Le jour J</div>
+  <div class="tip-card"><div class="tip-title">L'apparence — ça compte vraiment</div><div class="tip-body">Chemise, costume ou tenue très professionnelle. Carnet de notes et stylo. <strong>2 exemplaires du CV</strong> (un pour eux, un pour toi). Si alternance : amène ton calendrier de disponibilités. On sourit, on est poli, on applique les meilleures manières.</div></div>
+  <div class="tip-card highlight">
+    <div class="tip-title">Entre deux portes — si on t'appelle au mauvais moment</div>
+    <div class="tip-body">C'est ok de ne pas répondre. Il vaut mieux être posé pour passer ce genre d'appel qu'à la sortie d'un bar. Rappelle dans les plus brefs délais — personne ne t'en voudra. Ce qui compte, c'est la qualité de l'échange, pas la rapidité de réponse.</div>
+  </div>
+  <div class="tip-card"><div class="tip-title">Questions à poser — montre que tu t'es préparé</div><div class="tip-body">Sur tes futures missions, les outils, les pré-requis. Demande quelles sont les prochaines étapes. Si tu as les épaules : demande s'il y a d'autres candidats en cours — ça montre de la confiance et un vrai intérêt.</div></div>
+  <div class="tip-card warning"><div class="tip-title">Si tu as d'autres pistes</div><div class="tip-body">Ne dévoile pas tout. Et surtout : <strong>l'entretien du jour est TOUJOURS ton premier choix — même si ce n'est pas le cas.</strong> Toujours. Ça se sent, et les recruteurs adorent sentir qu'ils sont le premier choix.</div></div>
+
+  <div class="section-label">Après l'entretien</div>
+  <div class="tip-card gold"><div class="tip-title">Mail de remerciement dans les 24h</div><div class="tip-body">Pas dans la nuit — programme-le si tu l'écris tard. Un simple message sincère : "Merci pour votre temps, j'ai beaucoup apprécié l'échange, je reste à votre disposition." Court, sincère, dans les 24h. C'est rare, et ça marque.</div></div>
+  <div class="tip-card"><div class="tip-title">Refus : demande un retour constructif</div><div class="tip-body">C'est ok d'être refusé. Ce qui compte, c'est de demander pourquoi. Si c'est du budget, on peut pas y faire grand chose. Si c'est de la forme ou de la candidature, c'est précieux — et savoir écouter est une vraie compétence.</div></div>
+  <div class="tip-card"><div class="tip-title">Refuser une offre sans brûler les ponts</div><div class="tip-body">Si tu as le luxe de choisir, refuse poliment. On ne sait jamais si on recroisera ce recruteur dans 3 ans. Un template de refus est disponible dans les Templates mails.</div></div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('reseau')">← Réseau</button>
+    <button class="nav-btn primary" onclick="goTo('templates')">Templates mails →</button>
+  </div>
+</div>
+
+<!-- TEMPLATES -->
+<div id="ch-templates" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 7 · Décrocher</div>
+    <h2 class="ch-title">Templates mails</h2>
+    <p class="ch-subtitle">Copie, adapte, envoie. Les mots qui ouvrent les portes — à personnaliser pour chaque contact.</p>
+  </div>
+
+  <div class="section-label">Premier contact — candidature spontanée</div>
+  <div class="template-box">
+    <div class="template-label">📤 Prise de contact spontanée</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Candidature [Poste] – [Prénom Nom] – [École]
+
+Bonjour [Prénom],
+
+Étudiant(e) en [formation] à [École], je me permets de vous contacter car votre parcours et les activités de [Entreprise] m'inspirent particulièrement.
+
+Je cherche [une alternance / un stage] de [durée] à partir de [date] sur des missions de [domaine], et [Entreprise] est clairement en tête de mes choix.
+
+Vous trouverez mon CV en pièce jointe. Je serais ravi(e) d'échanger 20 minutes avec vous.
+
+Cordialement,
+[Prénom Nom]
+[École] – [Promotion]
+[LinkedIn] | [Téléphone]</pre>
+  </div>
+
+  <div class="section-label">Suivi d'une annonce postée</div>
+  <div class="template-box">
+    <div class="template-label">📌 Suivi après dépôt de candidature</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Suivi candidature – [Poste] – [Prénom Nom]
+
+Bonjour [Prénom],
+
+J'ai postulé il y a quelques jours à votre annonce pour [poste] et je souhaitais prendre contact directement pour exprimer ma motivation.
+
+[Une phrase sur pourquoi cette boîte en particulier.]
+
+Je reste disponible pour un échange à votre convenance.
+
+Cordialement,
+[Prénom Nom]</pre>
+  </div>
+
+  <div class="section-label">Relance (après 1–2 semaines sans réponse)</div>
+  <div class="template-box">
+    <div class="template-label">🔁 Relance — tout le monde relance</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Relance – Candidature [Poste] – [Prénom Nom]
+
+Bonjour [Prénom],
+
+Je me permets de revenir vers vous suite à ma candidature / notre échange du [date].
+
+Je reste très intéressé(e) par [Entreprise] et la mission de [poste]. Si vous avez eu l'occasion de consulter mon profil, je serais heureux(se) d'en discuter.
+
+Dans le cas contraire, je reste disponible pour tout complément d'information.
+
+Bonne journée,
+[Prénom Nom]</pre>
+  </div>
+
+  <div class="section-label">Contact alumni / réseau</div>
+  <div class="template-box">
+    <div class="template-label">🤝 Prise de contact réseau / alumni</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Échange parcours – [Prénom Nom], étudiant(e) [École]
+
+Bonjour [Prénom],
+
+Étudiant(e) à [École], je m'intéresse au [domaine / métier] et j'ai découvert votre parcours sur LinkedIn avec beaucoup d'intérêt.
+
+Je cherche à en apprendre davantage sur le quotidien d'un [poste] chez [Entreprise / dans ce secteur]. Seriez-vous disponible pour un échange de 20 minutes ? Vos retours d'expérience m'aideraient énormément à affiner mon projet.
+
+Avec mes remerciements,
+[Prénom Nom]
+[École] – [Promotion]
+[LinkedIn]</pre>
+  </div>
+
+  <div class="section-label">Remerciement post-entretien</div>
+  <div class="template-box">
+    <div class="template-label">🙏 Merci post-entretien — à envoyer dans les 24h</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Merci pour notre échange – [Prénom Nom]
+
+Bonjour [Prénom],
+
+Je tenais à vous remercier pour le temps que vous m'avez accordé ce [jour].
+
+Notre échange m'a confirmé mon intérêt pour [Entreprise] et pour la mission de [poste]. [Optionnel : une phrase sur quelque chose de spécifique évoqué lors de l'entretien.]
+
+Je reste disponible pour tout complément d'information et espère avoir l'opportunité de rejoindre vos équipes.
+
+Cordialement,
+[Prénom Nom]</pre>
+  </div>
+
+  <div class="section-label">Refus d'une offre — sans brûler les ponts</div>
+  <div class="template-box">
+    <div class="template-label">🤝 Refus poli — ne jamais brûler les ponts</div>
+    <button class="copy-btn" onclick="copyTemplate(this)">Copier</button>
+    <pre>Objet : Suite à notre échange – [Prénom Nom]
+
+Bonjour [Prénom],
+
+Je vous remercie pour votre confiance et le temps que vous m'avez consacré tout au long de ce processus.
+
+Après réflexion, j'ai décidé de retenir une autre opportunité qui correspond davantage à mon projet actuel sur [tel aspect]. Cela n'enlève rien à mon estime pour [Entreprise] — nos échanges ont été très enrichissants.
+
+Je serais ravi(e) de rester en contact sur LinkedIn.
+
+Bien cordialement,
+[Prénom Nom]</pre>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('entretien')">← Entretien</button>
+    <button class="nav-btn primary" onclick="goTo('tracker')">Tracker →</button>
+  </div>
+</div>
+
+<!-- TRACKER -->
+<div id="ch-tracker" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 8 · Suivi</div>
+    <h2 class="ch-title">Tracker candidatures</h2>
+    <p class="ch-subtitle">Ne laisse aucune candidature sans suite. Clique sur le statut pour le faire évoluer. Relance après 1–2 semaines sans réponse.</p>
+  </div>
+
+  <div class="info-box" style="margin-bottom:1.5rem;">
+    <div class="info-box-title">💡 Conseil</div>
+    <div class="info-box-body">Ce tracker en ligne est parfait pour un usage rapide. Pour une gestion plus poussée avec formules, filtres et tableau de bord, télécharge l'<strong>Excel de suivi</strong> disponible sur la page d'accueil — les données que tu entres ici se retrouveront dans le même format dans l'Excel.</div>
+  </div>
+
+  <div class="tracker-table">
+    <div class="tracker-header">
+      <div>Entreprise & poste</div>
+      <div>Date</div>
+      <div>Contact</div>
+      <div>Statut</div>
+      <div></div>
+    </div>
+    <div id="tracker-rows"></div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <button class="add-row-btn" onclick="addTrackerRow()">＋ Ajouter une candidature</button>
+    <a href="Tracker_Candidatures.xlsx" download class="dl-btn dl-btn-gold" style="font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;">📥 Télécharger Excel complet</a>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('templates')">← Templates</button>
+    <button class="nav-btn primary" onclick="goTo('wishlist')">Wishlist →</button>
+  </div>
+</div>
+
+<!-- WISHLIST -->
+<div id="ch-wishlist" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 9 · Suivi</div>
+    <h2 class="ch-title">Wishlist entreprises</h2>
+    <p class="ch-subtitle">Organise tes cibles par secteur et priorité. Une wishlist structurée t'aide à rester focalisé et à ne pas disperser tes efforts.</p>
+  </div>
+
+  <div class="info-box" style="margin-bottom:1.5rem;">
+    <div class="info-box-title">💡 Comment utiliser cette wishlist</div>
+    <div class="info-box-body">Classe chaque entreprise par secteur et identifie si tu as un contact dans cette boîte — ça change tout à ta stratégie d'approche. Les données entrées ici sont également disponibles dans l'Excel téléchargeable.</div>
+  </div>
+
+  <div class="wishlist-table">
+    <div class="wishlist-header">
+      <div>Entreprise</div>
+      <div>Secteur</div>
+      <div>Poste visé</div>
+      <div>Contact ?</div>
+    </div>
+    <div id="wishlist-rows"></div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <button class="add-row-btn" onclick="addWishlistRow()">＋ Ajouter une entreprise</button>
+    <a href="Tracker_Candidatures.xlsx" download class="dl-btn dl-btn-gold" style="font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;">📥 Télécharger Excel complet</a>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('tracker')">← Tracker</button>
+    <button class="nav-btn primary" onclick="goTo('checklist')">Checklist →</button>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div id="ch-checklist" class="chapter">
+  <div class="ch-header">
+    <div class="ch-tag">Module 10 · Suivi</div>
+    <h2 class="ch-title">Checklist finale</h2>
+    <p class="ch-subtitle">Avant d'envoyer ta prochaine candidature — tout vérifier en 2 minutes. Si tout est coché, tu es prêt(e).</p>
+  </div>
+
+  <div class="checklist-container" id="checklist-container"></div>
+
+  <div class="score-display">
+    <div class="score-num" id="checklist-score">0</div>
+    <div>
+      <div class="score-title" id="checklist-score-total">/ 16 points cochés</div>
+      <div class="score-label" id="checklist-msg">Continue — il reste des points à vérifier.</div>
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <button class="nav-btn" onclick="goTo('wishlist')">← Wishlist</button>
+    <button class="nav-btn primary" onclick="goTo('home')">🏠 Accueil</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- CHATBOT FAB -->
+<button class="chatbot-fab" onclick="toggleChat()">💬</button>
+
+<!-- CHATBOT PANEL -->
+<div class="chatbot-panel" id="chatbotPanel">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">D</div>
+    <div class="chatbot-header-info">
+      <h4>Coach Dorian</h4>
+      <p>Assistant Virtuel</p>
+    </div>
+    <div class="chatbot-online"></div>
+  </div>
+  
+  <div class="chatbot-messages" id="chatMessages">
+    <div class="chatbot-msg bot">Salut ! 👋 Je suis là pour t'aider avec tes recherches. Tu as une question sur ton CV, tes entretiens, ou LinkedIn ?</div>
+  </div>
+  
+  <div class="chatbot-quick">
+    <button class="chatbot-quick-btn" onclick="sendQuick('Astuce pour mon CV ?')">Astuce CV ?</button>
+    <button class="chatbot-quick-btn" onclick="sendQuick('Comment réussir un entretien ?')">Conseil Entretien ?</button>
+    <button class="chatbot-quick-btn" onclick="sendQuick('Comment relancer un RH ?')">Relancer un RH ?</button>
+  </div>
+  
+  <div class="chatbot-input-row">
+    <input type="text" class="chatbot-input" id="chatInput" placeholder="Pose ta question..." onkeypress="handleEnter(event)">
+    <button class="chatbot-send" id="chatSend" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+// ---- NAVIGATION ----
+const chapters = ['home','debutant','cv','linkedin','pitch','recherche','reseau','entretien','templates','tracker','wishlist','checklist'];
+const visited = new Set(['home']);
+
+function goTo(id) {
+  chapters.forEach(ch => {
+    const el = document.getElementById('ch-'+ch);
+    if (el) el.classList.toggle('visible', ch === id);
+  });
+  visited.add(id);
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    const ch = btn.dataset.ch;
+    btn.classList.toggle('active', ch === id);
+    if (visited.has(ch) && ch !== id) {
+      btn.classList.add('done');
+      btn.querySelector('.nav-check').style.opacity = '1';
+    }
+  });
+  updateProgress();
+  window.scrollTo(0,0);
+  if (window.innerWidth < 900) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+function updateProgress() {
+  const pct = Math.round(visited.size / chapters.length * 100);
+  document.getElementById('global-progress').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ---- QUIZ ----
+const cvQuizData = [
+  { q: "Que doit-on faire en priorité dans la phrase d'accroche du CV ?", opts: ["Écrire 'cherche un stage de 6 mois'","Mentionner le nom de l'entreprise cible et le poste précis","Lister ses 3 principales qualités","Indiquer sa disponibilité uniquement"], correct: 1, fb: "Mentionner le nom de l'entreprise montre immédiatement ta motivation. C'est la première chose que regarde un recruteur — et ça te distingue instantanément." },
+  { q: "Comment indiquer le niveau de langue 'très bon' de la façon la plus claire ?", opts: ["4 étoiles sur 5","Une jauge à 80%","Courant / Professionnel (C1)","Advanced"], correct: 2, fb: "Les jauges et étoiles ne veulent rien dire. 'Professionnel' ou le niveau CECR (B2, C1) sont universellement compris par n'importe quel recruteur dans le monde." },
+  { q: "Tu as fait un échange universitaire d'un semestre à Dublin. Où le mentionnes-tu en priorité ?", opts: ["Nulle part, c'est court","Dans la section Formation, sous ton diplôme principal","Dans les loisirs","Dans l'accroche uniquement"], correct: 1, fb: "Une expérience internationale, même courte, va dans la Formation. C'est ce que les recruteurs cherchent pour les postes internationaux — et ça se scanne en 3 secondes." },
+  { q: "Comment montrer que tu es autonome sur ton CV ?", opts: ["Écrire 'autonome' dans une colonne Skills","Mettre une étoile sur la compétence autonomie","Décrire une prise d'initiative concrète dans une expérience","Mettre autonomie en gras dans l'accroche"], correct: 2, fb: "Les qualités se montrent, elles ne se listent pas. 'Prise en charge autonome de 3 clients dès la 2e semaine' vaut infiniment mieux que le mot 'autonome' écrit en bullet point." }
+];
+
+const rechercheQuizData = [
+  { q: "Tu postules à une offre LinkedIn où le nom du recruteur est visible. Que faire en plus ?", opts: ["Rien, la candidature suffit","Attendre leur retour","Envoyer un message LinkedIn ou email à la personne pour se présenter","Postuler à 10 autres offres similaires d'abord"], correct: 2, fb: "Quand un nom est visible, c'est une opportunité à saisir. Un message personnel montre ta motivation et te distingue des centaines de candidatures anonymes." },
+  { q: "Ta recherche dure depuis 3 semaines sans résultats. Que faire ?", opts: ["Attendre encore","Retravailler le CV ET élargir les secteurs cibles","Envoyer le même CV à encore plus d'offres","Baisser ses ambitions"], correct: 1, fb: "Deux leviers : affiner son CV et vérifier si la recherche n'est pas trop étroite. Un secteur saturé peut avoir un équivalent adjacent plein d'opportunités." },
+  { q: "Comment doit s'appeler ton fichier CV ?", opts: ["cv.pdf","CV_2025_final_v2.pdf","NOM Prénom CV.pdf","Mon CV.pdf"], correct: 2, fb: "NOM Prénom CV — point. Simple, professionnel, et repérable dans une boîte mail pleine de pièces jointes. 'cv_final_v3.pdf' dit tout sur le niveau de rigueur du candidat." }
+];
+
+let cvScores = {}, rechScores = {};
+
+function renderQuiz(containerId, data, scoreObj, labelId, fillId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-container';
+    div.innerHTML = `<div class="quiz-question">Q${i+1}. ${q.q}</div>
+      <div class="quiz-options">${q.opts.map((o,j)=>`<button class="quiz-option" onclick="answerQuiz('${containerId}',${i},${j},'${scoreObj===cvScores?'cv':'rech'}','${labelId}','${fillId}',${data.length})">${o}</button>`).join('')}</div>
+      <div class="quiz-feedback" id="${containerId}-fb-${i}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function answerQuiz(cid, qi, chosen, scoreKey, labelId, fillId, total) {
+  const data = scoreKey==='cv' ? cvQuizData : rechercheQuizData;
+  const scoreObj = scoreKey==='cv' ? cvScores : rechScores;
+  if (scoreObj[qi] !== undefined) return;
+  const q = data[qi];
+  const container = document.getElementById(cid);
+  const buttons = container.querySelectorAll(`.quiz-container:nth-child(${qi+1}) .quiz-option`);
+  buttons.forEach((b,j) => {
+    b.disabled = true;
+    if (j===q.correct) b.classList.add('correct');
+    else if (j===chosen) b.classList.add('wrong');
+  });
+  scoreObj[qi] = chosen===q.correct ? 1 : 0;
+  const fb = document.getElementById(cid+'-fb-'+qi);
+  fb.textContent = (chosen===q.correct ? '✓ ' : '✗ ') + q.fb;
+  fb.className = 'quiz-feedback show ' + (chosen===q.correct ? 'good' : 'bad');
+  const score = Object.values(scoreObj).reduce((a,b)=>a+b,0);
+  document.getElementById(labelId).textContent = `Score : ${score} / ${total}`;
+  document.getElementById(fillId).style.width = (score/total*100)+'%';
+}
+
+// ---- TRACKER ----
+const statusCycle = ['new-lead','en-attente','relance','entretien','refuse','obtenu'];
+const statusLabels = {'new-lead':'Nouveau','en-attente':'En attente','relance':'À relancer','entretien':'Entretien 🔥','refuse':'Refusé','obtenu':'Obtenu 🎉'};
+let trackerData = [{company:'',date:'',contact:'',status:'en-attente'}];
+
+function renderTracker() {
+  const container = document.getElementById('tracker-rows');
+  container.innerHTML = '';
+  trackerData.forEach((row,i) => {
+    const div = document.createElement('div');
+    div.className = 'tracker-row';
+    div.innerHTML = `<div><input class="tracker-input" placeholder="Entreprise — Poste" value="${row.company}" oninput="trackerData[${i}].company=this.value"></div>
+      <div><input class="tracker-input" placeholder="JJ/MM" value="${row.date}" oninput="trackerData[${i}].date=this.value"></div>
+      <div><input class="tracker-input" placeholder="Prénom RH / Manager" value="${row.contact}" oninput="trackerData[${i}].contact=this.value"></div>
+      <div><span class="status-pill ${row.status}" onclick="cycleStatus(${i})">${statusLabels[row.status]}</span></div>
+      <div><button class="tracker-del" onclick="deleteTrackerRow(${i})">✕</button></div>`;
+    container.appendChild(div);
+  });
+}
+
+function cycleStatus(i) {
+  const idx = statusCycle.indexOf(trackerData[i].status);
+  trackerData[i].status = statusCycle[(idx+1)%statusCycle.length];
+  renderTracker();
+}
+
+function addTrackerRow() {
+  trackerData.push({company:'',date:'',contact:'',status:'en-attente'});
+  renderTracker();
+}
+
+function deleteTrackerRow(i) {
+  trackerData.splice(i,1);
+  if (trackerData.length === 0) trackerData = [{company:'',date:'',contact:'',status:'en-attente'}];
+  renderTracker();
+}
+
+// ---- WISHLIST ----
+let wishlistData = [{company:'',sector:'',role:'',contact:'Non'}];
+
+function renderWishlist() {
+  const container = document.getElementById('wishlist-rows');
+  container.innerHTML = '';
+  wishlistData.forEach((row,i) => {
+    const div = document.createElement('div');
+    div.className = 'wishlist-row';
+    div.innerHTML = `<div><input class="tracker-input" placeholder="Entreprise" value="${row.company}" oninput="wishlistData[${i}].company=this.value"></div>
+      <div><input class="tracker-input" placeholder="Secteur" value="${row.sector}" oninput="wishlistData[${i}].sector=this.value"></div>
+      <div><input class="tracker-input" placeholder="Poste visé" value="${row.role}" oninput="wishlistData[${i}].role=this.value"></div>
+      <div><span class="status-pill ${row.contact==='Oui'?'obtenu':'en-attente'}" onclick="toggleContact(${i})">${row.contact}</span></div>`;
+    container.appendChild(div);
+  });
+}
+
+function toggleContact(i) {
+  wishlistData[i].contact = wishlistData[i].contact === 'Oui' ? 'Non' : 'Oui';
+  renderWishlist();
+}
+
+function addWishlistRow() {
+  wishlistData.push({company:'',sector:'',role:'',contact:'Non'});
+  renderWishlist();
+}
+
+// ---- CHECKLIST ----
+const checklistItems = [
+  "L'adresse email est professionnelle (prenom.nom@gmail.com)",
+  "Le répondeur téléphonique est sobre : 'Bonjour, messagerie de [Prénom Nom]...'",
+  "La phrase d'accroche mentionne le nom de l'entreprise cible",
+  "Le fichier CV s'appelle NOM Prénom CV.pdf",
+  "Le CV tient sur une seule page",
+  "Les expériences contiennent des chiffres et des réalisations concrètes",
+  "Aucune colonne 'Skills' avec des qualités non démontrées",
+  "Les langues sont exprimées clairement (Bilingue, Courant, etc.)",
+  "L'alignement du CV est parfait — vérifié zone par zone",
+  "Un message LinkedIn ou email a été envoyé au contact de l'annonce",
+  "La candidature a été ajoutée au tracker",
+  "Le profil LinkedIn est à jour avec une photo et une bannière propres",
+  "Tu t'es googlé(e) pour vérifier ta e-réputation",
+  "L'elevator pitch est préparé — 1 minute fluide, sans hésitation",
+  "Les bases de l'entreprise sont connues (actualités récentes)",
+  "Le profil LinkedIn de l'interlocuteur a été consulté avant l'entretien"
+];
+let checkState = new Array(checklistItems.length).fill(false);
+
+function renderChecklist() {
+  const c = document.getElementById('checklist-container');
+  if (!c) return;
+  c.innerHTML = '';
+  checklistItems.forEach((item,i) => {
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.onclick = () => toggleCheck(i);
+    div.innerHTML = `<div class="check-box ${checkState[i]?'checked':''}">
+        <svg class="check-tick" viewBox="0 0 10 10" fill="none"><polyline points="1.5,5 4,8 8.5,2" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="check-label ${checkState[i]?'checked':''}">${item}</div>`;
+    c.appendChild(div);
+  });
+  updateChecklistScore();
+}
+
+function toggleCheck(i) {
+  checkState[i] = !checkState[i];
+  renderChecklist();
+}
+
+function updateChecklistScore() {
+  const score = checkState.filter(Boolean).length;
+  const total = checklistItems.length;
+  document.getElementById('checklist-score').textContent = score;
+  document.getElementById('checklist-score-total').textContent = `/ ${total} points cochés`;
+  const msgs = score===total ? '🎉 Parfait — tu es prêt(e) à envoyer !' : score>=total*0.8 ? 'Presque — encore quelques points !' : score>=total*0.5 ? 'Bonne progression, continue.' : 'Continue — il reste des points à vérifier.';
+  document.getElementById('checklist-msg').textContent = msgs;
+}
+
+// ---- PITCH BUILDER ----
+function buildPitch() {
+  const school = document.getElementById('pb-school').value.trim();
+  const p1 = document.getElementById('pb-p1').value.trim();
+  const p2 = document.getElementById('pb-p2').value.trim();
+  const p3 = document.getElementById('pb-p3').value.trim();
+  const target = document.getElementById('pb-target').value.trim();
+  const out = document.getElementById('pitch-output');
+  if (!school && !p1 && !target) { out.style.display='none'; return; }
+  let pitch = '';
+  if (school) pitch += `Étudiant(e) à ${school}`;
+  if (p1) pitch += `, ${p1}`;
+  if (p2) pitch += `. ${p2}`;
+  if (p3) pitch += `. En dehors des études, ${p3}`;
+  if (target) pitch += `. En ce moment, je recherche ${target}`;
+  pitch += '.';
+  out.style.display='block';
+  out.textContent = pitch;
+}
+
+// ---- COPY TEMPLATE ----
+function copyTemplate(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => btn.textContent = 'Copier', 2000);
+  });
+}
+
+// ---- CHATBOT ----
+let chatBusy = false;
+
+function toggleChat() {
+  const panel = document.getElementById('chatbotPanel');
+  const fab = document.querySelector('.chatbot-fab');
+  panel.classList.toggle('open');
+  fab.classList.toggle('open');
+  fab.innerHTML = panel.classList.contains('open') ? '✕' : '💬';
+}
+
+function handleEnter(event) {
+  if (event.key === 'Enter') {
+    sendChat();
+  }
+}
+
+function addMessage(text, type) {
+  const messagesDiv = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = `chatbot-msg ${type}`;
+  msg.textContent = text;
+  messagesDiv.appendChild(msg);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  return msg;
+}
+
+function getBotResponse(input) {
+  const text = input.toLowerCase();
+  
+  if (text.includes("cv")) return "Pour ton CV, mon meilleur conseil : fais-le tenir sur 1 seule page ! Utilise des verbes d'action, mets tes expériences récentes en haut, et ajoute des chiffres.";
+  if (text.includes("lettre") || text.includes("motivation")) return "La lettre de motivation doit être ciblée. Utilise la structure 'Vous - Moi - Nous'. Fais court et percutant !";
+  if (text.includes("entretien") || text.includes("interview") || text.includes("oral")) return "L'entretien, c'est 80% de préparation. Prépare ton 'Elevator Pitch', renseigne-toi à fond sur l'entreprise, et prépare 3 questions à leur poser à la fin.";
+  if (text.includes("linkedin") || text.includes("réseau")) return "Sur LinkedIn : photo pro, bannière personnalisée et titre clair. N'hésite pas à envoyer des messages directs aux recruteurs !";
+  if (text.includes("stage") || text.includes("alternance") || text.includes("recherche")) return "Utilise un Tracker de candidatures. Ne te contente pas des offres en ligne : contacte directement les managers (c'est le marché caché).";
+  if (text.includes("relance") || text.includes("rh")) return "Pas de réponse ? Attends 7 à 10 jours, puis fais un email de relance très court et poli. Réitère ta motivation sans montrer d'impatience.";
+  if (text.includes("merci")) return "Avec grand plaisir ! 💪";
+  
+  return "Je fonctionne par mots-clés ! Essaie de me parler de 'CV', 'motivation', 'entretien', 'LinkedIn', ou de 'relance'.";
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  
+  if(!text || chatBusy) return;
+  
+  input.value = '';
+  addMessage(text, 'user');
+  
+  chatBusy = true;
+  document.getElementById('chatSend').disabled = true;
+  
+  const loadingDiv = addMessage('En train de taper...', 'bot loading');
+  
+  setTimeout(() => {
+    const reply = getBotResponse(text);
+    
+    loadingDiv.classList.remove('loading');
+    loadingDiv.textContent = reply;
+    
+    chatBusy = false;
+    document.getElementById('chatSend').disabled = false;
+    document.getElementById('chatInput').focus();
+  }, 800);
+}
+
+function sendQuick(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+// ---- INIT ----
+renderQuiz('quiz-cv', cvQuizData, cvScores, 'cv-score-label', 'cv-score-fill');
+renderQuiz('quiz-recherche', rechercheQuizData, rechScores, 'rech-score-label', 'rech-score-fill');
+renderTracker();
+renderWishlist();
+renderChecklist();
+updateProgress();
+</script>
+</body>
+</html>
